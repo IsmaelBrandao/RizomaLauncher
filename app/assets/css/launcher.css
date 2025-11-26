@@ -34,7 +34,7 @@ html, body {
     /* Backgrounds com glassmorphism */
     --bg-dark: rgba(0, 0, 0, 0.85);
     --bg-darker: rgba(0, 0, 0, 0.95);
-    --bg-overlay: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.6) 100%);
+    --bg-overlay: linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.2) 100%);
     --bg-card: rgba(255, 255, 255, 0.03);
     --bg-card-hover: rgba(255, 255, 255, 0.05);
     --bg-hover: rgba(255, 255, 255, 0.08);
@@ -1324,17 +1324,29 @@ body {
     height: 100%;
     width: 75%;
     box-sizing: border-box;
-    padding: 0 clamp(30px, 4vw, 60px); /* ADICIONA PADDING LATERAL */
+    padding: 0 70px 0 40px; /* AUMENTADO de 50px para 70px à direita */
     display: flex;
     flex-direction: column;
+    overflow-x: hidden;
 }
 
 .settingsTab {
     width: 100%;
     height: 100%;
-    overflow-y: auto; /* MANTÉM funcionalidade */
+    overflow-y: auto;
     overflow-x: hidden;
-    padding-right: 0px; /* REMOVE padding que causa barra */
+    padding-right: 20px; /* AUMENTADO de 10px para 20px */
+    box-sizing: border-box;
+}
+
+.settingsFieldRight {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex: 0 0 auto;
+    width: 80px; /* AUMENTADO de 70px para 80px */
+    min-width: 80px;
+    padding-right: 5px; /* ADICIONA um pequeno padding */
 }
 
 .settingsTab::-webkit-scrollbar {
@@ -1480,16 +1492,20 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: clamp(20px, 3vw, 25px) clamp(10px, 2vw, 15px); /* Padding lateral também */
+    padding: 25px 0;
     width: 100%;
-    max-width: 900px; /* Limita largura máxima */
+    max-width: none;
     border-bottom: 1px solid var(--border-default);
+    gap: 50px; /* AUMENTADO de 40px para 50px */
+    box-sizing: border-box;
 }
 
 .settingsFieldLeft {
     display: flex;
     flex-direction: column;
-    max-width: 70%;
+    flex: 1 1 auto;
+    max-width: calc(100% - 140px); /* AUMENTADO de 120px para 140px */
+    min-width: 0;
 }
 
 .settingsFieldTitle {
@@ -4410,11 +4426,6 @@ input:checked + .toggleSwitchSlider:before {
         width: 32%;
     }
     
-    #settingsContainerRight {
-        width: 68%;
-        padding: 0 20px;
-    }
-    
     /* Botão JOGAR menor */
     #launch_button {
         padding: 14px 45px;
@@ -4451,10 +4462,6 @@ input:checked + .toggleSwitchSlider:before {
     
     #settingsContainerLeft {
         width: 35%;
-    }
-    
-    #settingsContainerRight {
-        width: 65%;
     }
     
     .settingsFileSelContainer,
@@ -4495,11 +4502,6 @@ input:checked + .toggleSwitchSlider:before {
         width: 28%;
     }
     
-    #settingsContainerRight {
-        width: 72%;
-        padding: 0 clamp(20px, 3vw, 40px);
-    }
-    
     /* User content mais compacto */
     #user_content {
         padding: 10px 15px;
@@ -4517,8 +4519,9 @@ input:checked + .toggleSwitchSlider:before {
 /* Modo janela mínimo (960px) */
 @media screen and (max-width: 960px) {
     #settingsContainerRight {
-        padding: 0 15px;
+        padding: 0 50px 0 20px; /* AUMENTADO padding direito */
     }
+}
     
     .settingsFieldContainer,
     .settingsFileSelContainer,
@@ -4662,11 +4665,10 @@ body, html, #landingContainer, #settingsContainer, #newsContainer {
  ******************************************************************************/
 
 @media screen and (max-width: 800px) {
-    /* Ajusta layout para janelas muito pequenas */
-    #landingContainer > #lower > #left {
-        padding-left: 30px;
+    #settingsContainerRight {
+        padding: 0 40px 0 15px; /* AUMENTADO padding direito */
     }
-    
+}
     #landingContainer > #lower > #right {
         padding-right: 30px;
     }
@@ -4674,11 +4676,6 @@ body, html, #landingContainer, #settingsContainer, #newsContainer {
     /* Settings mais compacto */
     #settingsContainerLeft {
         width: 35%;
-    }
-    
-    #settingsContainerRight {
-        width: 65%;
-        padding: 0 15px;
     }
     
     /* Botão Done menor */

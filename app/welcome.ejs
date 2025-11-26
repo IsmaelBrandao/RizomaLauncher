@@ -1,22 +1,29 @@
 <div id="welcomeContainer" style="display: none;">
-    <!--<div class="cloudDiv">
-        <div class="cloudTop"></div>
-        <div class="cloudBottom"></div>
-    </div>-->
     <div id="welcomeContent">
-        <img id="welcomeImageSeal" src="assets/images/SealCircle.png"/>
-        <span id="welcomeHeader"><%- lang('welcome.welcomeHeader') %></span>
-        <span id="welcomeDescription"><%- lang('welcome.welcomeDescription') %></span>
+        <img id="welcomeImageSeal" src="./assets/images/SealCircle.png"/>
+        
+        <span id="welcomeHeader">BEM-VINDO AO RIZOMA</span>
+        
+        <span id="welcomeDescription">
+            O Rizoma é um servidor focado em diversão, tecnologia e exploração. 
+            Nosso modpack foi cuidadosamente selecionado para oferecer a melhor 
+            experiência possível, combinando mods técnicos com magia e aventura.
+            <br><br>
+            Prepare-se para explorar novos mundos, construir máquinas complexas 
+            e jogar com seus amigos em uma comunidade incrível.
+        </span>
+        
         <br>
-        <span id="welcomeDescCTA"><%- lang('welcome.welcomeDescCTA') %></span>
+        
+        <span id="welcomeDescCTA">
+            Sua jornada começa agora.
+        </span>
+        
         <button id="welcomeButton">
             <div id="welcomeButtonContent">
-                <%- lang('welcome.continueButton') %>
-                <svg id="welcomeSVG" viewBox="0 0 24.87 13.97">
-                    <defs>
-                        <style>.arrowLine{fill:none;stroke:#FFF;stroke-width:2px;transition: 0.25s ease;}</style>
-                    </defs>
-                    <polyline class="arrowLine" points="0.71 13.26 12.56 1.41 24.16 13.02"/>
+                CONTINUAR
+                <svg id="welcomeSVG" viewBox="0 0 24 24">
+                    <path fill="#ffffff" d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z" />
                 </svg>
             </div>
         </button>

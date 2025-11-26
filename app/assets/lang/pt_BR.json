@@ -1,0 +1,115 @@
+{
+    "landing": {
+        "launch": {
+            "play": "JOGAR",
+            "pleaseWait": "Por favor, aguarde...",
+            "launching": "Iniciando o jogo...",
+            "failureTitle": "Falha ao Iniciar",
+            "failureText": "Ocorreu um erro ao tentar iniciar o jogo. Verifique o console para mais detalhes.",
+            "checkConsoleForDetails": "Verifique o console para detalhes.",
+            "launchWrapperNotDownloaded": "LaunchWrapper não baixado.",
+            "okay": "OK"
+        },
+        "news": {
+            "checking": "Verificando notícias"
+        },
+        "serverStatus": {
+            "server": "SERVIDOR",
+            "players": "JOGADORES",
+            "offline": "OFFLINE"
+        },
+        "discord": {
+            "joining": "Entrando no Servidor...",
+            "joined": "Jogando no Rizoma",
+            "loading": "Carregando..."
+        },
+        "selectedAccount": {
+            "noAccountSelected": "Nenhuma conta selecionada"
+        },
+        "selectedServer": {
+            "loading": "Carregando..."
+        },
+        "noSelection": "Nenhuma Seleção"
+    },
+    "loginOptions": {
+        "loginOptionsTitle": "LOGIN MINECRAFT",
+        "loginWithMicrosoft": "Entrar com Microsoft",
+        "loginWithMojang": "Entrar com Mojang",
+        "cancelButton": "Cancelar"
+    },
+    "login": {
+        "login": "ENTRAR",
+        "loggingIn": "ENTRANDO...",
+        "success": "SUCESSO",
+        "tryAgain": "Tente Novamente",
+        "error": {
+            "invalidValue": "* Valor Inválido",
+            "requiredValue": "* Obrigatório",
+            "unknown": "Ocorreu um erro desconhecido."
+        }
+    },
+    "settings": {
+        "settingsTitle": "Configurações",
+        "fileSelectors": {
+            "executables": "Executáveis",
+            "allFiles": "Todos os Arquivos"
+        },
+        "authAccountSelect": {
+            "selectButton": "Selecionar Conta",
+            "selectedButton": "Conta Selecionada ✓"
+        },
+        "authAccountPopulate": {
+            "username": "NOME DE USUÁRIO",
+            "uuid": "UUID",
+            "selectedAccount": "Conta Selecionada ✓",
+            "selectAccount": "Selecionar Conta",
+            "logout": "Sair"
+        },
+        "authAccountLogout": {
+            "lastAccountWarningTitle": "Aviso de Logout",
+            "lastAccountWarningMessage": "Esta é a última conta autenticada. Se você sair, precisará fazer login novamente para jogar. Tem certeza?",
+            "confirmButton": "Sim, Sair",
+            "cancelButton": "Cancelar"
+        },
+        "msftLogin": {
+            "errorTitle": "Erro no Login Microsoft",
+            "errorMessage": "O login não foi concluído. Por favor, tente novamente.",
+            "okButton": "OK"
+        },
+        "msftLogout": {
+            "errorTitle": "Erro no Logout Microsoft",
+            "errorMessage": "O logout não foi concluído. Por favor, tente novamente.",
+            "okButton": "OK"
+        },
+        "java": {
+            "selectedJava": "Java {version} ({vendor})",
+            "invalidSelection": "Seleção Inválida",
+            "requiresJava": "Requer Java {major} x64",
+            "availableOptions": "Opções disponíveis para Java {major}"
+        },
+        "about": {
+            "preReleaseTitle": "Pré-lançamento",
+            "stableReleaseTitle": "Versão Estável",
+            "releaseNotesFailed": "Falha ao carregar notas de lançamento."
+        },
+        "updates": {
+            "newPreReleaseTitle": "Novo Pré-lançamento Disponível",
+            "newReleaseTitle": "Nova Atualização Disponível",
+            "latestVersionTitle": "Você está na versão mais recente.",
+            "downloadButton": "Baixar",
+            "downloadingButton": "Baixando...",
+            "checkForUpdatesButton": "Verificar Atualizações",
+            "checkingForUpdatesButton": "Verificando..."
+        },
+        "dropinMods": {
+            "removeButton": "Remover",
+            "deleteFailedTitle": "Falha ao deletar {fullName}",
+            "deleteFailedMessage": "Não foi possível remover o arquivo. Verifique se o jogo está fechado.",
+            "okButton": "OK",
+            "failedToggleTitle": "Falha ao alternar mod"
+        },
+        "serverListing": {
+            "mainServer": "Servidor Principal"
+        }
+    }
+}

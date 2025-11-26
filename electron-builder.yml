@@ -1,8 +1,10 @@
-appId: 'helioslauncher'
-productName: 'Helios Launcher'
+# O ID deve ser único. Padrão: com.seu_nome.nome_do_app
+appId: 'com.ismaelbrandao.rizomalauncher'
+
+productName: 'Rizoma Launcher'
 artifactName: '${productName}-setup-${version}.${ext}'
 
-copyright: 'Copyright © 2018-2024 Daniel Scalzi'
+copyright: 'Copyright ©2025 Gabirubs'
 
 asar: true
 compression: 'maximum'
@@ -25,6 +27,10 @@ nsis:
   perMachine: false
   allowElevation: true
   allowToChangeInstallationDirectory: true
+  # Cria atalho na área de trabalho e menu iniciar
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: 'Rizoma Launcher'
 
 # macOS Configuration
 mac:
@@ -39,12 +45,11 @@ mac:
 # Linux Configuration
 linux: 
   target: 'AppImage'
-  maintainer: 'Daniel Scalzi'
-  vendor: 'Daniel Scalzi'
-  synopsis: 'Modded Minecraft Launcher'
-  description: 'Custom launcher which allows users to join modded servers. All mods, configurations, and updates are handled automatically.'
+  maintainer: 'Ismael Brandao'
+  vendor: 'Ismael Brandao'
+  synopsis: 'Launcher Oficial do Servidor Rizoma'
+  description: 'Launcher customizado para o modpack Rizoma, com atualizações automáticas.'
   category: 'Game'
-
 
 directories:
   buildResources: 'build'

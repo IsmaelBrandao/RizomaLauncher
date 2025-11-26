@@ -1,14 +1,16 @@
+// Arquivo: index.js
+
 const remoteMain = require('@electron/remote/main')
 remoteMain.initialize()
 
 // Requirements
 const { app, BrowserWindow, ipcMain, Menu, shell } = require('electron')
-const autoUpdater                       = require('electron-updater').autoUpdater
-const ejse                              = require('ejs-electron')
-const fs                                = require('fs')
-const isDev                             = require('./app/assets/js/isdev')
-const path                              = require('path')
-const semver                            = require('semver')
+const autoUpdater                         = require('electron-updater').autoUpdater
+const ejse                                = require('ejs-electron')
+const fs                                  = require('fs')
+const isDev                               = require('./app/assets/js/isdev')
+const path                                = require('path')
+const semver                              = require('semver')
 const { pathToFileURL }                 = require('url')
 const { AZURE_CLIENT_ID, MSFT_OPCODE, MSFT_REPLY_TYPE, MSFT_ERROR, SHELL_OPCODE } = require('./app/assets/js/ipcconstants')
 const LangLoader                        = require('./app/assets/js/langloader')
@@ -227,8 +229,8 @@ let win
 function createWindow() {
 
     win = new BrowserWindow({
-        width: 980,
-        height: 552,
+        width: 1280, // RESOLUÇÃO AJUSTADA
+        height: 720, // RESOLUÇÃO AJUSTADA
         icon: getPlatformIcon('SealCircle'),
         frame: false,
         webPreferences: {

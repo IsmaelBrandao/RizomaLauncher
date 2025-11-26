@@ -1,3 +1,5 @@
+// Arquivo: app/assets/js/scripts/welcome.js
+
 /**
  * Script for welcome.ejs
  */

@@ -482,6 +482,17 @@ async function dlAsync(login = true) {
             }
             proc.stdout.removeListener('data', tempListener)
             proc.stderr.removeListener('data', gameErrorListener)
+
+            // === FECHAR O LAUNCHER ===
+            setTimeout(() => {
+                try {
+                    const w = remote.getCurrentWindow();
+                    w.close();
+                } catch(e) {
+                    console.error("Erro ao fechar:", e);
+                    remote.app.quit();
+                }
+            }, 1500); // Espera 1.5s antes de fechar
         }
         const start = Date.now()
 

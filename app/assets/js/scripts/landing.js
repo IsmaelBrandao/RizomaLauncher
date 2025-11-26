@@ -6,7 +6,6 @@
 // Requirements
 const { URL }                 = require('url')
 const {
-    MojangRestAPI,
     getServerStatus
 }                             = require('helios-core/mojang')
 const {
@@ -128,8 +127,6 @@ function updateSelectedAccount(authUser){
         }
         
         // Usa sempre o endpoint /head/ (Cubo 3D) baseado no Nome (displayName)
-        // Isso funciona tanto para online quanto offline (se o nick tiver skin)
-        // Se for conta Microsoft/Mojang, ele usa o nome correto. Se for Offline, usa o nome escolhido.
         const identifier = authUser.displayName || 'Steve';
         document.getElementById('avatarContainer').style.backgroundImage = `url('https://mc-heads.net/head/${identifier}')`
     }
@@ -158,102 +155,71 @@ server_selection_button.onclick = async e => {
     await toggleServerSelection(true)
 }
 
-// Update Mojang Status Color
-const refreshMojangStatuses = async function(){
-    loggerLanding.info('Refreshing Mojang Statuses..')
-
-    let status = 'grey'
-    let tooltipEssentialHTML = ''
-    let tooltipNonEssentialHTML = ''
-
-    const response = await MojangRestAPI.status()
-    let statuses
-    if(response.responseStatus === RestResponseStatus.SUCCESS) {
-        statuses = response.data
-    } else {
-        loggerLanding.warn('Unable to refresh Mojang service status.')
-        statuses = MojangRestAPI.getDefaultStatuses()
-    }
-    
-    greenCount = 0
-    greyCount = 0
-
-    for(let i=0; i<statuses.length; i++){
-        const service = statuses[i]
-
-        const tooltipHTML = `<div class="mojangStatusContainer">
-            <span class="mojangStatusIcon" style="color: ${MojangRestAPI.statusToHex(service.status)};">&#8226;</span>
-            <span class="mojangStatusName">${service.name}</span>
-        </div>`
-        if(service.essential){
-            tooltipEssentialHTML += tooltipHTML
-        } else {
-            tooltipNonEssentialHTML += tooltipHTML
-        }
-
-        if(service.status === 'yellow' && status !== 'red'){
-            status = 'yellow'
-        } else if(service.status === 'red'){
-            status = 'red'
-        } else {
-            if(service.status === 'grey'){
-                ++greyCount
-            }
-            ++greenCount
-        }
-
-    }
-
-    if(greenCount === statuses.length){
-        if(greyCount === statuses.length){
-            status = 'grey'
-        } else {
-            status = 'green'
-        }
-    }
-    
-    document.getElementById('mojangStatusEssentialContainer').innerHTML = tooltipEssentialHTML
-    document.getElementById('mojangStatusNonEssentialContainer').innerHTML = tooltipNonEssentialHTML
-    document.getElementById('mojang_status_icon').style.color = MojangRestAPI.statusToHex(status)
-}
+// =========================================================================
+// MOJANG STATUS LOGIC REMOVED
+// =========================================================================
 
 const refreshServerStatus = async (fade = false) => {
-    loggerLanding.info('Refreshing Server Status')
+    loggerLanding.info('Refreshing Server Status (API)')
+    
+    // 1. Pega as informações do servidor selecionado no distribution.json
     const serv = (await DistroAPI.getDistribution()).getServerById(ConfigManager.getSelectedServer())
 
-    let pLabel = Lang.queryJS('landing.serverStatus.server')
-    let pVal = Lang.queryJS('landing.serverStatus.offline')
+    // 2. Pega o endereço IP que você configurou no json (variavel "address")
+    let address = serv.hostname; // No Helios, .hostname lê o campo "address" do JSON
+    if (serv.port && serv.port !== 25565) {
+        address += ':' + serv.port;
+    }
+
+    // 3. Seleciona os elementos na tela (HTML) onde o texto vai aparecer
+    const pLabelElement = document.getElementById('landingPlayerLabel'); // O título "SERVER STATUS"
+    const pCountElement = document.getElementById('player_count');       // O valor "Offline" ou "5/100"
+
+    // Textos padrão (enquanto carrega)
+    let pLabel = Lang.queryJS('landing.serverStatus.players'); 
+    let pVal = 'Carregando...'; 
 
     try {
+        // 4. Conecta na API para pegar os dados reais
+        const response = await fetch(`https://api.mcsrvstat.us/2/${address}`);
+        const data = await response.json();
 
-        const servStat = await getServerStatus(47, serv.hostname, serv.port)
-        //console.log(servStat)
-        pLabel = Lang.queryJS('landing.serverStatus.players')
-        pVal = servStat.players.online + '/' + servStat.players.max
+        if (data.online) {
+            // === AQUI É ONDE DEFINE O VALOR QUE APARECE NA TELA ===
+            // data.players.online = jogadores online
+            // data.players.max = máximo de slots
+            pVal = `${data.players.online}/${data.players.max}`; // Exemplo: 15/100
+            
+            // Deixa o texto verde para indicar sucesso
+            pCountElement.style.color = '#27ae60'; 
+        } else {
+            // Se o servidor estiver fechado
+            pVal = 'Offline';
+            pCountElement.style.color = '#e74c3c'; // Vermelho
+        }
 
     } catch (err) {
-        loggerLanding.warn('Unable to refresh server status, assuming offline.')
-        loggerLanding.debug(err)
+        loggerLanding.warn('Erro ao atualizar status do servidor via API.');
+        pVal = 'Offline';
+        pCountElement.style.color = '#e74c3c';
     }
+
+    // 5. Aplica o texto na tela (com ou sem animação de fade)
     if(fade){
         $('#server_status_wrapper').fadeOut(250, () => {
-            document.getElementById('landingPlayerLabel').innerHTML = pLabel
-            document.getElementById('player_count').innerHTML = pVal
-            $('#server_status_wrapper').fadeIn(500)
+            pLabelElement.innerHTML = pLabel;
+            pCountElement.innerHTML = pVal; // <--- Essa linha coloca o valor no HTML
+            $('#server_status_wrapper').fadeIn(500);
         })
     } else {
-        document.getElementById('landingPlayerLabel').innerHTML = pLabel
-        document.getElementById('player_count').innerHTML = pVal
+        pLabelElement.innerHTML = pLabel;
+        pCountElement.innerHTML = pVal; // <--- Essa linha coloca o valor no HTML
     }
-    
 }
 
-refreshMojangStatuses()
 // Server Status is refreshed in uibinder.js on distributionIndexDone.
 
-// Refresh statuses every hour. The status page itself refreshes every day so...
-let mojangStatusListener = setInterval(() => refreshMojangStatuses(true), 60*60*1000)
-// Set refresh rate to once every 5 minutes.
+// Refresh rate for server status (once every 5 minutes).
 let serverStatusListener = setInterval(() => refreshServerStatus(true), 300000)
 
 /**

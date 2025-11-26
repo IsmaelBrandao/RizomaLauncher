@@ -3702,20 +3702,28 @@ input:checked + .toggleSwitchSlider:before {
 
 .mojangStatusContainer {
     display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 2px 0;
 }
 
 .mojangStatusName {
-    width: 100%;
-    font-size: clamp(9px, 1.5vw, 10px);
-    letter-spacing: 1px;
-    line-height: 12px;
-    padding: 6px 0px;
+    font-size: 12px;
+    color: #ffffff;
+    flex: 1;
 }
 
 .mojangStatusIcon {
-    margin-right: 10px;
-    font-size: 18.5px;
-    color: #848484;
+    margin-right: 8px;
+    font-size: 14px;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+}
+
+#mojangStatusEssentialContainer,
+#mojangStatusNonEssentialContainer {
+    min-height: 10px;
+    display: flex;
+    flex-direction: column;
 }
 
 /*******************************************************************************
@@ -4799,6 +4807,28 @@ body, html, #landingContainer, #settingsContainer, #newsContainer {
     border-color: #8ca0eb !important; /* Um azul mais claro ao passar o mouse */
     background: rgba(114, 137, 218, 0.2) !important;
 }
+
+/* ==========================================================================
+   CUSTOM RIZOMA - AUMENTAR LARGURA DO LOGIN
+   ========================================================================== */
+
+/* Aumenta a largura dos campos de digitar (usuário e senha) */
+.loginField {
+    width: 350px !important;
+}
+
+/* Aumenta a largura do botão ENTER e centraliza ele */
+#loginButton {
+    width: 350px !important;
+    right: 0px !important; /* Remove o deslocamento original para centralizar */
+    box-sizing: border-box !important;
+}
+
+/* Aumenta também os botões da tela de escolha (Microsoft/Mojang) para combinar */
+.loginOptionButtonContainer {
+    width: 350px !important;
+}
+
 /*******************************************************************************
  *                                                                             *
  * 🎉 FIM DO CSS MODERNIZADO - LAUNCHER COMPLETO                               *

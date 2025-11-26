@@ -27,7 +27,7 @@ let lu = false, lp = false
 let isOfflineMode = false;
 
 // --- CUSTOM: Inject Offline Checkbox ---
-// Injects a checkbox to toggle offline mode into the login form options
+// Injeta o checkbox (necessário para o estado), mas a UI vai escondê-lo quando ativo
 function injectOfflineCheckbox() {
     const optionsContainer = document.getElementById('loginOptions');
     if (optionsContainer && !document.getElementById('loginOfflineOption')) {
@@ -51,7 +51,7 @@ function injectOfflineCheckbox() {
         offlineDiv.appendChild(checkbox);
         offlineDiv.appendChild(label);
         
-        // Insert before the existing options or append
+        // Insere antes das opções
         optionsContainer.parentNode.insertBefore(offlineDiv, optionsContainer);
 
         // Bind Event
@@ -62,22 +62,57 @@ function injectOfflineCheckbox() {
     }
 }
 
-// --- CUSTOM: Toggle UI for Offline Mode ---
+// --- CUSTOM: Toggle UI for Offline Mode (LIMPEZA VISUAL) ---
 function toggleOfflineModeUI(offline) {
+    // Elementos visuais para manipular
+    const passwordInput = document.getElementById('loginPassword');
+    
+    // --- A MÁGICA AQUI: Pega o container pai da senha (que inclui o cadeado) ---
+    const passwordContainer = passwordInput ? passwordInput.closest('.loginFieldContainer') : null;
+
+    const checkboxContainer = document.getElementById('loginOfflineOption')?.parentElement;
+    const loginOptionsDiv = document.getElementById('loginOptions'); 
+    const header = document.getElementById('loginSubheader');
+    const loginDisclaimer = document.getElementById('loginDisclaimer'); 
+    const loginRegisterSpan = document.getElementById('loginRegisterSpan'); 
+
     if (offline) {
-        loginPassword.disabled = true;
-        loginPassword.style.opacity = '0.5';
-        loginPassword.value = ''; // Clear password
-        loginPasswordError.style.opacity = 0;
-        lp = true; // Bypass password validation
+        // === MODO OFFLINE ATIVADO ===
         
-        // Re-validate username to enable button if username is present
-        validateEmail(loginUsername.value);
+        // 1. Esconde o container da senha (o cadeado vai junto!)
+        if(passwordContainer) passwordContainer.style.display = 'none';
+        
+        // 2. Esconde o resto
+        if(checkboxContainer) checkboxContainer.style.display = 'none';
+        if(loginOptionsDiv) loginOptionsDiv.style.display = 'none';
+        if(loginDisclaimer) loginDisclaimer.style.display = 'none';
+        if(loginRegisterSpan) loginRegisterSpan.style.display = 'none';
+
+        // 3. Ajusta textos
+        if(header) header.innerHTML = 'LOGIN OFFLINE';
+        if(loginUsername) loginUsername.placeholder = 'DIGITE SEU NICK';
+
+        // 4. Lógica
+        if(passwordInput) passwordInput.value = '';
+        lp = true; 
+        if(loginUsername) validateEmail(loginUsername.value);
+
     } else {
-        loginPassword.disabled = false;
-        loginPassword.style.opacity = '1';
-        lp = false; // Require password again
-        validatePassword(loginPassword.value); // Re-validate
+        // === MODO ONLINE (MOJANG) ===
+        // Restaura tudo
+        
+        // --- Traz o container da senha de volta ---
+        if(passwordContainer) passwordContainer.style.display = 'flex';
+
+        if(checkboxContainer) checkboxContainer.style.display = 'flex';
+        if(loginOptionsDiv) loginOptionsDiv.style.display = 'flex';
+        if(loginDisclaimer) loginDisclaimer.style.display = 'flex'; 
+        if(loginRegisterSpan) loginRegisterSpan.style.display = 'block';
+
+        if(header) header.innerHTML = 'LOGIN MINECRAFT';
+        if(loginUsername) loginUsername.placeholder = 'E-MAIL OU USUÁRIO';
+
+        lp = false; 
     }
 }
 
@@ -276,7 +311,8 @@ loginButton.addEventListener('click', () => {
         // Simula delay de login
         setTimeout(async () => {
             try {
-                // CORREÇÃO: Modificamos o objeto retornado diretamente (passagem por referência)
+                // CORREÇÃO CRÍTICA: Manipulação direta do objeto de configurações
+                // Isso evita o erro "ConfigManager.addAuthAccount is not a function"
                 
                 // 1. Pega a REFERÊNCIA das contas atuais
                 const authAccounts = ConfigManager.getAuthAccounts();

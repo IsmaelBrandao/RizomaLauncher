@@ -165,62 +165,78 @@ const refreshServerStatus = async (fade = false) => {
     // 1. Pega as informações do servidor selecionado no distribution.json
     const serv = (await DistroAPI.getDistribution()).getServerById(ConfigManager.getSelectedServer())
 
-    // 2. Pega o endereço IP que você configurou no json (variavel "address")
-    let address = serv.hostname; // No Helios, .hostname lê o campo "address" do JSON
+    // 2. Pega o endereço IP configurado no JSON
+    let address = serv.hostname; 
     if (serv.port && serv.port !== 25565) {
         address += ':' + serv.port;
     }
 
-    // 3. Seleciona os elementos na tela (HTML) onde o texto vai aparecer
-    const pLabelElement = document.getElementById('landingPlayerLabel'); // O título "SERVER STATUS"
-    const pCountElement = document.getElementById('player_count');       // O valor "Offline" ou "5/100"
+    // 3. Seleciona os elementos HTML
+    const pLabelElement = document.getElementById('landingPlayerLabel');
+    const pCountElement = document.getElementById('player_count');
 
-    // Textos padrão (enquanto carrega)
-    let pLabel = Lang.queryJS('landing.serverStatus.players'); 
+    // Textos padrão
+    let pLabel = Lang.queryJS('landing.serverStatus.server'); 
     let pVal = 'Carregando...'; 
 
     try {
-        // 4. Conecta na API para pegar os dados reais
+        // 4. Conecta na API
         const response = await fetch(`https://api.mcsrvstat.us/2/${address}`);
+        
+        // Verifica se a resposta foi bem sucedida
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
         const data = await response.json();
 
-        if (data.online) {
-            // === AQUI É ONDE DEFINE O VALOR QUE APARECE NA TELA ===
-            // data.players.online = jogadores online
-            // data.players.max = máximo de slots
-            pVal = `${data.players.online}/${data.players.max}`; // Exemplo: 15/100
+        // Log para debug
+        loggerLanding.info('Server status response:', JSON.stringify(data));
+
+        // Verifica se o servidor está online E se tem dados de jogadores
+        if (data.online === true && data.players) {
+            // === VALOR QUE APARECE NA TELA ===
+            const onlinePlayers = data.players.online || 0;
+            const maxPlayers = data.players.max || 0;
+            pVal = `${onlinePlayers}/${maxPlayers}`;
             
-            // Deixa o texto verde para indicar sucesso
+            // Cor verde para online
             pCountElement.style.color = '#27ae60'; 
+            
+            loggerLanding.info(`Server is ONLINE: ${pVal} players`);
         } else {
-            // Se o servidor estiver fechado
-            pVal = 'Offline';
-            pCountElement.style.color = '#e74c3c'; // Vermelho
+            // Servidor offline
+            pVal = 'OFFLINE';
+            pCountElement.style.color = '#e74c3c';
+            loggerLanding.info('Server is OFFLINE');
         }
 
     } catch (err) {
-        loggerLanding.warn('Erro ao atualizar status do servidor via API.');
-        pVal = 'Offline';
+        loggerLanding.error('Erro ao atualizar status do servidor:', err);
+        loggerLanding.error('Stack trace:', err.stack);
+        pVal = 'OFFLINE';
         pCountElement.style.color = '#e74c3c';
     }
 
-    // 5. Aplica o texto na tela (com ou sem animação de fade)
+    // 5. Aplica o texto na tela
     if(fade){
         $('#server_status_wrapper').fadeOut(250, () => {
             pLabelElement.innerHTML = pLabel;
-            pCountElement.innerHTML = pVal; // <--- Essa linha coloca o valor no HTML
+            pCountElement.innerHTML = pVal;
             $('#server_status_wrapper').fadeIn(500);
         })
     } else {
         pLabelElement.innerHTML = pLabel;
-        pCountElement.innerHTML = pVal; // <--- Essa linha coloca o valor no HTML
+        pCountElement.innerHTML = pVal;
     }
 }
+
+refreshServerStatus(false);
 
 // Server Status is refreshed in uibinder.js on distributionIndexDone.
 
 // Refresh rate for server status (once every 5 minutes).
-let serverStatusListener = setInterval(() => refreshServerStatus(true), 300000)
+let serverStatusListener = setInterval(() => refreshServerStatus(true), 300000);
 
 /**
  * Shows an error overlay, toggles off the launch area.

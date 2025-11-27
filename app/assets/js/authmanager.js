@@ -415,6 +415,14 @@ async function validateSelectedMicrosoftAccount(){
  */
 exports.validateSelected = async function(){
     const current = ConfigManager.getSelectedAccount()
+    
+    // --- CORREÇÃO: Verifica se a conta é nula (primeira execução) ---
+    if(!current) return false
+
+    // --- CORREÇÃO: Aceita contas offline automaticamente ---
+    if(current.type === 'offline') {
+        return true
+    }
 
     if(current.type === 'microsoft') {
         return await validateSelectedMicrosoftAccount()

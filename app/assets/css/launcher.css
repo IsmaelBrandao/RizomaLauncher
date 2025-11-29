@@ -16,21 +16,21 @@ html, body {
     --color-primary-hover: #c0392b;
     --color-primary-active: #a93226;
     --color-primary-gradient: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-    
+
     /* Cores secundárias - Azul */
     --color-secondary: #3498db;
     --color-secondary-hover: #2980b9;
     --color-secondary-gradient: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-    
+
     /* Cores de sucesso/enabled - Verde */
     --color-success: #27ae60;
     --color-success-hover: #229954;
     --color-success-gradient: linear-gradient(135deg, #27ae60 0%, #229954 100%);
-    
+
     /* Cores neutras/desabilitado */
     --color-disabled: #7f8c8d;
     --color-disabled-gradient: linear-gradient(135deg, #7f8c8d 0%, #95a5a6 100%);
-    
+
     /* Backgrounds com glassmorphism */
     --bg-dark: rgba(0, 0, 0, 0.85);
     --bg-darker: rgba(0, 0, 0, 0.95);
@@ -39,23 +39,23 @@ html, body {
     --bg-card-hover: rgba(255, 255, 255, 0.05);
     --bg-hover: rgba(255, 255, 255, 0.08);
     --bg-input: rgba(255, 255, 255, 0.05);
-    
+
     /* Textos */
     --text-primary: #ffffff;
     --text-secondary: rgba(255, 255, 255, 0.7);
     --text-tertiary: rgba(255, 255, 255, 0.5);
     --text-disabled: rgba(255, 255, 255, 0.4);
-    
+
     /* Bordas com glassmorphism */
     --border-default: rgba(255, 255, 255, 0.1);
     --border-light: rgba(255, 255, 255, 0.2);
     --border-focus: rgba(255, 255, 255, 0.4);
     --border-strong: rgba(255, 255, 255, 0.3);
-    
+
     /* Badges */
     --badge-dev: #2ecc71;
     --badge-online: #27ae60;
-    
+
     /* Shadows e Glows */
     --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
     --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.3);
@@ -65,20 +65,20 @@ html, body {
     --glow-secondary: 0 0 20px rgba(52, 152, 219, 0.5);
     --glow-success: 0 0 20px rgba(39, 174, 96, 0.5);
     --glow-white: 0 0 20px rgba(255, 255, 255, 0.3);
-    
+
     /* Border Radius Modernos */
     --radius-sm: 6px;
     --radius-md: 12px;
     --radius-lg: 20px;
     --radius-xl: 50px;
     --radius-circle: 50%;
-    
+
     /* Transitions */
     --transition-fast: 0.15s ease;
     --transition-default: 0.3s ease;
     --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-slow: 0.5s ease;
-    
+
     /* Backdrop Blur */
     --blur-sm: blur(10px);
     --blur-md: blur(20px);
@@ -3111,13 +3111,13 @@ input:checked + .toggleSwitchSlider:before {
 #landingContainer > #lower {
     height: 23%;
     display: flex;
-    background: linear-gradient(to top, 
-        rgba(0, 0, 0, 0.95) 0%, 
+    /* background: linear-gradient(to top,
+        rgba(0, 0, 0, 0.95) 0%,
         rgba(0, 0, 0, 0.85) 50%,
         rgba(0, 0, 0, 0) 100%
     );
     backdrop-filter: var(--blur-sm);
-    -webkit-backdrop-filter: var(--blur-sm);
+    -webkit-backdrop-filter: var(--blur-sm); */
     overflow: hidden; /* Previne overflow */
 }
 
@@ -3130,7 +3130,7 @@ input:checked + .toggleSwitchSlider:before {
     display: inline-flex;
     justify-content: flex-start;
     align-items: center;
-    padding-left: clamp(50px, 6vw, 70px); /* MAIS ESPAÇO DA BORDA */
+    padding-left: 30px; /* MAIS ESPAÇO DA BORDA */
 }
 
 #landingContainer > #lower > #left #content {
@@ -3297,10 +3297,10 @@ input:checked + .toggleSwitchSlider:before {
 #user_content {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 10px;
     padding: clamp(10px, 2vw, 12px) clamp(15px, 3vw, 20px);
     background: var(--bg-input);
-    border-radius: var(--radius-xl);
+    border-radius: 25px;
     border: 1px solid var(--border-default);
     backdrop-filter: var(--blur-md);
     -webkit-backdrop-filter: var(--blur-md);
@@ -3386,7 +3386,7 @@ input:checked + .toggleSwitchSlider:before {
     overflow: visible; /* Permite tooltips */
 }
 
-#internalMedia, 
+#internalMedia,
 #externalMedia {
     display: flex;
     flex-direction: column;
@@ -3431,7 +3431,7 @@ input:checked + .toggleSwitchSlider:before {
 .mediaDivider {
     height: 2px;
     width: 20px;
-    background: linear-gradient(to right, 
+    background: linear-gradient(to right,
         transparent 0%,
         rgba(255, 255, 255, 0.2) 50%,
         transparent 100%
@@ -3741,18 +3741,18 @@ input:checked + .toggleSwitchSlider:before {
 }
 
 #launch_button {
-    background: var(--color-primary-gradient);
+    background: #44ce1b;
     border: 2px solid rgba(255, 255, 255, 0.2);
     border-radius: var(--radius-xl);
     padding: clamp(15px, 3vw, 18px) clamp(50px, 8vw, 60px);
-    font-size: clamp(20px, 4vw, 24px);
-    font-weight: 900;
+    font-size: 24px;
+    font-weight: 800;
     letter-spacing: 3px;
     text-transform: uppercase;
     cursor: pointer;
     transition: all var(--transition-smooth);
     outline: none;
-    box-shadow: 0 8px 32px rgba(231, 76, 60, 0.4),
+    box-shadow: 0 8px 32px rgba(41, 241, 51, 0.4),
                 inset 0 1px 0 rgba(255, 255, 255, 0.2);
     position: relative;
     overflow: hidden;
@@ -3765,9 +3765,9 @@ input:checked + .toggleSwitchSlider:before {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, 
-        transparent, 
-        rgba(255, 255, 255, 0.2), 
+    background: linear-gradient(90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
         transparent
     );
     transition: left var(--transition-slow);
@@ -3775,7 +3775,7 @@ input:checked + .toggleSwitchSlider:before {
 
 #launch_button:hover {
     transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 12px 40px rgba(231, 76, 60, 0.6),
+    box-shadow: 0 12px 40px rgba(14, 241, 25, 0.4),
                 inset 0 1px 0 rgba(255, 255, 255, 0.3);
     border-color: rgba(255, 255, 255, 0.4);
 }
@@ -4424,28 +4424,28 @@ input:checked + .toggleSwitchSlider:before {
     #landingContainer > #lower {
         height: 28%;
     }
-    
+
     #landingContainer > #upper {
         height: 72%;
     }
-    
+
     /* Settings ainda mais compacto */
     #settingsContainerLeft {
         width: 32%;
     }
-    
+
     /* Botão JOGAR menor */
     #launch_button {
         padding: 14px 45px;
         font-size: 20px;
         letter-spacing: 2px;
     }
-    
+
     /* Media icons empilhados se necessário */
     #mediaContent {
         gap: 8px;
     }
-    
+
     .mediaContainer {
         height: 36px;
         width: 36px;
@@ -4457,21 +4457,21 @@ input:checked + .toggleSwitchSlider:before {
     #landingContainer > #lower {
         height: 30%;
     }
-    
+
     #landingContainer > #upper {
         height: 70%;
     }
-    
+
     #launch_button {
         padding: 12px 40px;
         font-size: 18px;
         letter-spacing: 2px;
     }
-    
+
     #settingsContainerLeft {
         width: 35%;
     }
-    
+
     .settingsFileSelContainer,
     #settingsModsContainer,
     #settingsMemoryContainer,
@@ -4500,22 +4500,22 @@ input:checked + .toggleSwitchSlider:before {
     #landingContainer > #upper > #right {
         width: 12%;
     }
-    
+
     #landingContainer > #upper > #content {
         width: 76%;
     }
-    
+
     /* Settings mais compacto */
     #settingsContainerLeft {
         width: 28%;
     }
-    
+
     /* User content mais compacto */
     #user_content {
         padding: 10px 15px;
         gap: 10px;
     }
-    
+
     /* Logo menor */
     #image_seal,
     #image_seal_container {
@@ -4530,7 +4530,7 @@ input:checked + .toggleSwitchSlider:before {
         padding: 0 50px 0 20px; /* AUMENTADO padding direito */
     }
 }
-    
+
     .settingsFieldContainer,
     .settingsFileSelContainer,
     #settingsModsContainer,
@@ -4680,30 +4680,30 @@ body, html, #landingContainer, #settingsContainer, #newsContainer {
     #landingContainer > #lower > #right {
         padding-right: 30px;
     }
-    
+
     /* Settings mais compacto */
     #settingsContainerLeft {
         width: 35%;
     }
-    
+
     /* Botão Done menor */
     #settingsNavDone {
         padding: 10px 20px;
         font-size: 13px;
     }
-    
+
     /* Nav items mais compactos */
     .settingsNavItem {
         padding: 10px 15px;
         font-size: 13px;
     }
-    
+
     /* Media icons menores */
     .mediaContainer {
         height: 36px;
         width: 36px;
     }
-    
+
     .mediaSVG {
         height: 16px;
         width: 16px;
@@ -4737,22 +4737,22 @@ body, html, #landingContainer, #settingsContainer, #newsContainer {
         flex-wrap: nowrap;
         gap: 10px;
     }
-    
+
     #server_status_wrapper,
     #mojangStatusWrapper {
         min-width: 110px;
         max-width: 130px;
         padding: 8px 12px;
     }
-    
+
     .bot_label {
         font-size: 8px;
     }
-    
+
     #player_count {
         font-size: 12px;
     }
-    
+
     #mojang_status_icon {
         font-size: 20px;
     }
@@ -4764,7 +4764,7 @@ body, html, #landingContainer, #settingsContainer, #newsContainer {
         flex-direction: column;
         gap: 10px;
     }
-    
+
     #server_status_wrapper,
     #mojangStatusWrapper {
         width: 100%;

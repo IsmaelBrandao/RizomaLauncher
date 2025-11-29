@@ -23,18 +23,15 @@ function initAutoUpdater(event, data) {
 
     if(data){
         autoUpdater.allowPrerelease = true
-    } else {
-        // Defaults to true if application version contains prerelease components (e.g. 0.12.1-alpha.1)
-        // autoUpdater.allowPrerelease = true
     }
     
-    if(isDev){
-        autoUpdater.autoInstallOnAppQuit = false
-        autoUpdater.updateConfigPath = path.join(__dirname, 'dev-app-update.yml')
-    }
+    // ✅ CORREÇÃO: Remove lógica que força dev-app-update.yml
+    // O electron-updater automaticamente usa app-update.yml em produção
+    
     if(process.platform === 'darwin'){
         autoUpdater.autoDownload = false
     }
+    
     autoUpdater.on('update-available', (info) => {
         event.sender.send('autoUpdateNotification', 'update-available', info)
     })

@@ -1,6 +1,6 @@
 {
   "name": "rizoma-launcher",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "productName": "Rizoma Launcher",
   "description": "Launcher Oficial do Servidor Rizoma",
   "author": "Ismael Brandão (https://github.com/IsmaelBrandao)",
@@ -47,5 +47,35 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/IsmaelBrandao/RizomaLauncher.git"
+  },
+  "build": {
+    "appId": "com.rizomamc.launcher",
+    "productName": "Rizoma Launcher",
+    "artifactName": "${productName}-setup-${version}.${ext}",
+    "copyright": "Copyright © 2025 Ismael Brandão",
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "app/assets/images/SealCircle.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "!{dist,.gitignore,.vscode,docs,.travis.yml,.nvmrc,.eslintrc.json,README.md,dev-app-update.yml}"
+    ],
+    "publish": {
+      "provider": "github",
+      "owner": "IsmaelBrandao",
+      "repo": "RizomaLauncher"
+    }
   }
 }

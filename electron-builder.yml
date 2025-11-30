@@ -1,7 +1,6 @@
 appId: 'com.ismaelbrandao.rizomalauncher'
 productName: 'Rizoma Launcher'
 
-# Configuração de publicação (GitHub Releases)
 publish:
   provider: github
   owner: IsmaelBrandao
@@ -13,16 +12,17 @@ copyright: 'Copyright ©2025 Gabirubs'
 asar: true
 compression: 'maximum'
 
-# CRÍTICO: Arquivos a serem incluídos/excluídos
 files:
-  - '!{dist,.gitignore,.vscode,docs,dev-app-update.yml,.nvmrc,.eslintrc.json}'
-  - 'app-update.yml' # ← FORÇA INCLUSÃO DO ARQUIVO
+  - "**/*"
+  - "!dist/**/*"
+  - "!docs/**/*"
+  - "!dev-app-update.yml"
+  - "app-update.yml"
 
 extraResources:
   - 'libraries'
-  - 'app-update.yml' # ← GARANTE QUE ESTEJA NO PACOTE
+  - 'app-update.yml'
 
-# Windows Configuration
 win: 
   target: 
     - target: 'nsis'
@@ -37,7 +37,6 @@ nsis:
   createStartMenuShortcut: true
   shortcutName: 'Rizoma Launcher'
 
-# macOS Configuration
 mac:
   target:
     - target: 'dmg'
@@ -47,7 +46,6 @@ mac:
   artifactName: '${productName}-setup-${version}-${arch}.${ext}'
   category: 'public.app-category.games'
 
-# Linux Configuration
 linux: 
   target: 'AppImage'
   maintainer: 'Ismael Brandao'

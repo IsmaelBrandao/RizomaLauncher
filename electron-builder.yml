@@ -1,11 +1,6 @@
 appId: 'com.ismaelbrandao.rizomalauncher'
 productName: 'Rizoma Launcher'
 
-publish:
-  provider: github
-  owner: IsmaelBrandao
-  repo: RizomaLauncher
-
 artifactName: '${productName}-setup-${version}.${ext}'
 copyright: 'Copyright ©2025 Gabirubs'
 
@@ -17,11 +12,9 @@ files:
   - "!dist/**/*"
   - "!docs/**/*"
   - "!dev-app-update.yml"
-  - "app-update.yml"
 
 extraResources:
   - 'libraries'
-  - 'app-update.yml'
 
 win: 
   target: 

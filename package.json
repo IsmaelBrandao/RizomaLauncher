@@ -1,6 +1,6 @@
 {
   "name": "rizoma-launcher",
-  "version": "1.0.9",
+  "version": "1.0.12",
   "productName": "Rizoma Launcher",
   "description": "Launcher Oficial do Servidor Rizoma",
   "author": "Ismael Brandão (https://github.com/IsmaelBrandao)",
@@ -28,6 +28,7 @@
     "discord-rpc-patch": "^4.0.1",
     "ejs": "^3.1.10",
     "ejs-electron": "^3.0.0",
+    "electron-log": "^5.4.3",
     "electron-updater": "^6.3.9",
     "fs-extra": "^11.1.1",
     "github-syntax-dark": "^0.5.0",

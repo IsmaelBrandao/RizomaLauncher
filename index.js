@@ -19,37 +19,95 @@ const LangLoader                        = require('./app/assets/js/langloader')
 LangLoader.setupLanguage()
 
 // Setup auto updater.
+
 function initAutoUpdater(event, data) {
 
     if(data){
         autoUpdater.allowPrerelease = true
     }
     
-    // ✅ CORREÇÃO: Remove lógica que força dev-app-update.yml
-    // O electron-updater automaticamente usa app-update.yml em produção
+    // HABILITA LOGS DETALHADOS DO ELECTRON-UPDATER
+    autoUpdater.logger = require('electron-log')
+    autoUpdater.logger.transports.file.level = 'info'
+    
+    console.log('=== CONFIGURANDO AUTO-UPDATER ===')
+    console.log('Platform:', process.platform)
+    console.log('App Version:', app.getVersion())
+    console.log('Allow Prerelease:', autoUpdater.allowPrerelease)
+    
+    // CORREÇÃO CRÍTICA: Define a URL do feed MANUALMENTE
+    autoUpdater.setFeedURL({
+        provider: 'github',
+        owner: 'IsmaelBrandao',
+        repo: 'RizomaLauncher'
+    })
+    
+    console.log('Feed URL configurada para: IsmaelBrandao/RizomaLauncher')
     
     if(process.platform === 'darwin'){
         autoUpdater.autoDownload = false
+        console.log('macOS detectado - download manual ativado')
+    } else {
+        console.log('Download automático ativado')
     }
     
-    autoUpdater.on('update-available', (info) => {
-        event.sender.send('autoUpdateNotification', 'update-available', info)
-    })
-    autoUpdater.on('download-progress', (info) => {
-        event.sender.send('autoUpdateNotification', 'download-progress', info)
-    })
-    autoUpdater.on('update-downloaded', (info) => {
-        event.sender.send('autoUpdateNotification', 'update-downloaded', info)
-    })
-    autoUpdater.on('update-not-available', (info) => {
-        event.sender.send('autoUpdateNotification', 'update-not-available', info)
-    })
     autoUpdater.on('checking-for-update', () => {
+        console.log('>>> EVENTO: checking-for-update')
         event.sender.send('autoUpdateNotification', 'checking-for-update')
     })
+    
+    autoUpdater.on('update-available', (info) => {
+        console.log('>>> EVENTO: update-available')
+        console.log('Versão disponível:', info.version)
+        console.log('Release date:', info.releaseDate)
+        console.log('Download URL:', info.files)
+        console.log('Iniciando download automático...')
+        event.sender.send('autoUpdateNotification', 'update-available', info)
+    })
+    
+    autoUpdater.on('update-not-available', (info) => {
+        console.log('>>> EVENTO: update-not-available')
+        console.log('Você está na versão mais recente:', info.version)
+        event.sender.send('autoUpdateNotification', 'update-not-available', info)
+    })
+    
+    autoUpdater.on('download-progress', (progressObj) => {
+        console.log('>>> EVENTO: download-progress')
+        console.log('Progresso:', Math.round(progressObj.percent) + '%')
+        console.log('Baixado:', Math.round(progressObj.transferred / 1024 / 1024) + 'MB')
+        console.log('Total:', Math.round(progressObj.total / 1024 / 1024) + 'MB')
+        console.log('Velocidade:', Math.round(progressObj.bytesPerSecond / 1024) + 'KB/s')
+        event.sender.send('autoUpdateNotification', 'download-progress', progressObj)
+    })
+    
+    autoUpdater.on('update-downloaded', (info) => {
+        console.log('>>> EVENTO: update-downloaded')
+        console.log('Update baixado com sucesso!')
+        console.log('Versão:', info.version)
+        console.log('Pronto para instalar')
+        event.sender.send('autoUpdateNotification', 'update-downloaded', info)
+    })
+    
     autoUpdater.on('error', (err) => {
+        console.error('>>> EVENTO: error')
+        console.error('ERRO CRÍTICO no auto-updater:')
+        console.error('Mensagem:', err.message)
+        console.error('Stack:', err.stack)
         event.sender.send('autoUpdateNotification', 'realerror', err)
-    }) 
+    })
+    
+    // CORREÇÃO: Força verificação imediata após 5 segundos
+    setTimeout(() => {
+        console.log('=== INICIANDO VERIFICAÇÃO DE UPDATES ===')
+        autoUpdater.checkForUpdates()
+            .then((result) => {
+                console.log('Verificação concluída:', result)
+            })
+            .catch(err => {
+                console.error('Erro ao verificar updates:', err.message)
+                event.sender.send('autoUpdateNotification', 'realerror', err)
+            })
+    }, 5000)
 }
 
 // Open channel to listen for update actions.
@@ -86,6 +144,7 @@ ipcMain.on('autoUpdateAction', (event, arg, data) => {
             break
     }
 })
+
 // Redirect distribution index event from preloader to renderer.
 ipcMain.on('distributionIndexDone', (event, res) => {
     event.sender.send('distributionIndexDone', res)
@@ -229,8 +288,8 @@ let win
 function createWindow() {
 
     win = new BrowserWindow({
-        width: 1280, // RESOLUÇÃO AJUSTADA
-        height: 720, // RESOLUÇÃO AJUSTADA
+        width: 1280,
+        height: 720,
         icon: getPlatformIcon('SealCircle'),
         frame: false,
         webPreferences: {

@@ -1,11 +1,12 @@
 <div id="landingContainer" style="display: none;">
     <div id="upper">
         <div id="left">
-            <div id="image_seal_container">
-                <img id="image_seal" src="assets/images/SealCircle.png"/>
-                <div id="updateAvailableTooltip"><%- lang('landing.updateAvailableTooltip') %></div>
-            </div>
-        </div>
+    <!-- Status de jogadores movido para cá -->
+    <div id="server_status_wrapper_top">
+        <span class="bot_label" id="landingPlayerLabelTop">JOGADORES ONLINE</span>
+        <span id="player_count_top">Carregando...</span>
+    </div>
+</div>
         <div id="content">
         </div>
         <div id="right">
@@ -54,15 +55,16 @@
     
     <div id="lower">
         <div id="left">
-            <div class="bot_wrapper">
-                <div id="content_left_widgets">
-                    <div id="server_status_wrapper">
-                        <span class="bot_label" id="landingPlayerLabel"><%- lang('landing.serverStatus') %></span>
-                        <span id="player_count"><%- lang('landing.serverStatusPlaceholder') %></span>
-                    </div>
-                </div>
-            </div>
+    <div class="bot_wrapper">
+        <!-- Seletor de modpack agora fica aqui -->
+        <div id="server_selector_container_bottom">
+            <span id="server_selector_label">SELECIONE O MODPACK</span>
+            <button id="server_selection_button" class="server_selector_button">
+                <span id="server_selection_text">Carregando...</span>
+            </button>
         </div>
+    </div>
+</div>
 
         <div id="center">
             <div class="bot_wrapper">
@@ -82,10 +84,8 @@
         </div>
 
         <div id="right">
-            <div class="bot_wrapper">
-                <button id="server_selection_button" class="bot_label"><%- lang('landing.launchButtonPlaceholder') %></button>
-            </div>
-        </div>
+    <!-- Espaço vazio - botão foi movido para o inferior esquerdo -->
+</div>
     </div>
 
     <div id="newsContainer">

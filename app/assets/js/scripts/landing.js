@@ -41,6 +41,16 @@ const launch_details_text     = document.getElementById('launch_details_text')
 const server_selection_button = document.getElementById('server_selection_button')
 const user_text               = document.getElementById('user_text')
 
+// CORREÇÃO: Buscar elementos dinamicamente (após DOM load)
+function getPlayerCountTop() {
+    return document.getElementById('player_count_top')
+}
+
+function getServerSelectionText() {
+    return document.getElementById('server_selection_text')
+}
+
+
 const loggerLanding = LoggerUtil.getLogger('Landing')
 
 /* Launch Progress Wrapper Functions */
@@ -142,7 +152,20 @@ function updateSelectedServer(serv){
     }
     ConfigManager.setSelectedServer(serv != null ? serv.rawServer.id : null)
     ConfigManager.save()
-    server_selection_button.innerHTML = '&#8226; ' + (serv != null ? serv.rawServer.name : Lang.queryJS('landing.noSelection'))
+    
+    // CORREÇÃO: Atualiza o texto com múltiplos fallbacks
+    const serverText = document.getElementById('server_selection_text')
+    const serverButton = document.getElementById('server_selection_button')
+    const displayText = serv != null ? serv.rawServer.name : Lang.queryJS('landing.noSelection')
+    
+    if(serverText) {
+        // Novo layout (com span interno)
+        serverText.innerHTML = displayText
+    } else if(serverButton) {
+        // Fallback: atualiza o botão diretamente
+        serverButton.innerHTML = `<span id="server_selection_text">${displayText}</span>`
+    }
+    
     if(getCurrentView() === VIEWS.settings){
         animateSettingsTabRefresh()
     }
@@ -164,18 +187,15 @@ const refreshServerStatus = async (fade = false) => {
     
     const serv = (await DistroAPI.getDistribution()).getServerById(ConfigManager.getSelectedServer())
     
-    // Separa IP e porta
     let hostname = serv.hostname;
     let port = serv.port || 25565;
     
-    const pLabelElement = document.getElementById('landingPlayerLabel');
-    const pCountElement = document.getElementById('player_count');
+    // NOVO: Elementos no topo
+    const pCountElementTop = getPlayerCountTop(); // Usa a função helper
 
-    let pLabel = Lang.queryJS('landing.serverStatus.server'); 
     let pVal = 'Carregando...'; 
 
     try {
-        // === NOVA API: mcapi.us (mais confiável) ===
         const response = await fetch(`https://api.mcstatus.io/v2/status/java/${hostname}:${port}`);
         
         if (!response.ok) {
@@ -186,36 +206,34 @@ const refreshServerStatus = async (fade = false) => {
 
         loggerLanding.info('Server status response:', JSON.stringify(data));
 
-        // Verifica se o servidor está online
         if (data.online === true && data.players) {
-            pLabel = Lang.queryJS('landing.serverStatus.players');
             const onlinePlayers = data.players.online || 0;
             const maxPlayers = data.players.max || 0;
             pVal = `${onlinePlayers}/${maxPlayers}`;
-            pCountElement.style.color = '#27ae60'; 
+            if(pCountElementTop) pCountElementTop.style.color = '#27ae60'; 
             loggerLanding.info(`Server is ONLINE: ${pVal} players`);
         } else {
             pVal = 'OFFLINE';
-            pCountElement.style.color = '#e74c3c';
+            if(pCountElementTop) pCountElementTop.style.color = '#e74c3c';
             loggerLanding.info('Server is OFFLINE');
         }
 
     } catch (err) {
         loggerLanding.error('Erro ao atualizar status:', err.message);
         pVal = 'OFFLINE';
-        pCountElement.style.color = '#e74c3c';
+        if(pCountElementTop) pCountElementTop.style.color = '#e74c3c';
     }
 
-    // Aplica o texto na tela
-    if(fade){
-        $('#server_status_wrapper').fadeOut(250, () => {
-            pLabelElement.innerHTML = pLabel;
-            pCountElement.innerHTML = pVal;
-            $('#server_status_wrapper').fadeIn(500);
-        })
-    } else {
-        pLabelElement.innerHTML = pLabel;
-        pCountElement.innerHTML = pVal;
+    // Atualiza o elemento no topo
+    if(pCountElementTop) {
+        if(fade){
+            $('#server_status_wrapper_top').fadeOut(250, () => {
+                pCountElementTop.innerHTML = pVal;
+                $('#server_status_wrapper_top').fadeIn(500);
+            })
+        } else {
+            pCountElementTop.innerHTML = pVal;
+        }
     }
 }
 

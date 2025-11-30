@@ -3129,8 +3129,15 @@ input:checked + .toggleSwitchSlider:before {
     width: 33%;
     display: inline-flex;
     justify-content: flex-start;
-    align-items: center;
-    padding-left: 30px; /* MAIS ESPAÇO DA BORDA */
+    align-items: center; /* Centraliza verticalmente */
+    padding-left: 30px;
+}
+
+/* Garante que o conteúdo interno também centralize */
+#landingContainer > #lower > #left .bot_wrapper {
+    display: flex;
+    align-items: center; /* Centraliza verticalmente o card */
+    height: 100%; /* Ocupa toda altura disponível */
 }
 
 #landingContainer > #lower > #left #content {
@@ -3173,101 +3180,213 @@ input:checked + .toggleSwitchSlider:before {
     padding-right: clamp(30px, 4vw, 40px);
 }
 /*******************************************************************************
- *                                                                             *
- * Landing View (Top Styles) - LOGO - MODERNIZADO                              *
- *                                                                             *
+ * Logo Removida - Espaço usado para Server Status
+ ******************************************************************************/
+/* Estilos da logo DELETADOS */
+/*******************************************************************************
+ * SERVER STATUS - SUPERIOR ESQUERDO (onde estava a logo)
  ******************************************************************************/
 
-#image_seal {
-    height: clamp(100px, 15vw, 120px);
-    width: auto;
-    position: relative;
-    box-sizing: border-box;
-    border-radius: var(--radius-circle);
-    transition: all var(--transition-default);
-    filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.2));
-}
-
-#image_seal_container {
-    position: relative;
-    height: clamp(100px, 15vw, 120px);
-    width: clamp(100px, 15vw, 120px);
-    border-radius: var(--radius-circle);
+#server_status_wrapper_top {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 16px 20px; /* Mesmo padding */
+    background: var(--bg-card);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-default);
+    backdrop-filter: var(--blur-md);
+    -webkit-backdrop-filter: var(--blur-md);
+    min-width: 180px; /* Mesma largura mínima */
+    max-width: 220px; /* Mesma largura máxima */
+    box-shadow: var(--shadow-md);
     transition: all var(--transition-default);
 }
 
-#image_seal_container:hover #image_seal {
-    transform: scale(1.05);
-    filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.4));
+#server_status_wrapper_top:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--border-light);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
 }
 
-#image_seal_container[update] {
-    cursor: pointer;
-}
-
-#image_seal_container[update]:before,
-#image_seal_container[update]:after {
-    cursor: pointer;
-    position: absolute;
-    content: '';
-    height: 100%;
-    width: 100%;
-    top: 0%;
-    left: 0%;
-    border-radius: var(--radius-circle);
-    box-shadow: 0 0 25px var(--color-success);
-    animation: glow-grow 3s ease-out infinite;
-    background: rgba(39, 174, 96, 0.1);
-}
-
-#image_seal_container[update]:before {
-    animation-delay: 1.5s;
-}
-
-@keyframes glow-grow {
-    0% {
-        opacity: 0;
-        transform: scale(1);
-    }
-    80% {
-        opacity: 1;
-    }
-    100% {
-        transform: scale(1.3);
-        opacity: 0;
-    }
-}
-
-#updateAvailableTooltip {
-    cursor: pointer;
-    visibility: hidden;
-    opacity: 0;
-    width: 140px;
-    padding: 8px 12px;
-    background-color: rgba(39, 174, 96, 0.95);
-    color: #fff;
+#landingPlayerLabelTop {
+    font-size: 11px; /* Era 9px - AUMENTADO */
+    letter-spacing: 1.5px;
+    font-weight: 900;
+    text-transform: uppercase;
+    color: #FFFFFF;
     text-align: center;
-    border-radius: var(--radius-sm);
-    position: absolute;
-    z-index: 1;
-    top: 115%;
-    left: 50%;
-    transform: translateX(-50%);
     font-family: 'Avenir Medium';
-    font-size: clamp(10px, 1.5vw, 11px);
-    transition: all var(--transition-default);
-    box-shadow: 0 5px 20px rgba(39, 174, 96, 0.4);
+    text-shadow: 0 2px 8px rgba(255, 255, 255, 0.3);
 }
 
-#updateAvailableTooltip::after {
-    content: " ";
+#player_count_top {
+    color: var(--color-secondary);
+    font-size: 20px; /* Aumentado para melhor visibilidade */
+    font-weight: 900;
+    text-shadow: var(--glow-secondary);
+    letter-spacing: 1px;
+    text-align: center;
+}
+
+/*******************************************************************************
+ * SERVER SELECTOR - INFERIOR ESQUERDO (onde estava antes)
+ ******************************************************************************/
+
+#server_selector_container_bottom {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Mesmo gap */
+    padding: 16px 20px; /* Mesmo padding */
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-md);
+    backdrop-filter: var(--blur-lg);
+    -webkit-backdrop-filter: var(--blur-lg);
+    box-shadow: var(--shadow-md);
+    transition: all var(--transition-default);
+    min-width: 180px; /* Mesma largura mínima */
+    max-width: 220px; /* Mesma largura máxima */
+}
+
+#server_selector_container_bottom:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--border-light);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+#server_selector_label {
+    font-size: 11px; /* Era 9px - AUMENTADO */
+    font-weight: 900;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    text-align: center;
+    font-family: 'Avenir Medium';
+    text-shadow: 0 2px 8px rgba(255, 255, 255, 0.3);
+}
+
+.server_selector_button {
+    background: var(--color-secondary-gradient);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-md);
+    padding: 12px 16px; /* Ajustado */
+    cursor: pointer;
+    transition: all var(--transition-smooth);
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+    position: relative;
+    overflow: hidden;
+    outline: none;
+}
+
+.server_selector_button::before {
+    content: '';
     position: absolute;
-    left: 50%;
-    bottom: 100%;
-    margin-left: -6px;
-    border-width: 6px;
-    border-style: solid;
-    border-color: transparent transparent rgba(39, 174, 96, 0.95) transparent;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left var(--transition-slow);
+}
+
+.server_selector_button:hover::before {
+    left: 100%;
+}
+
+.server_selector_button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(52, 152, 219, 0.5);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.server_selector_button:active {
+    transform: translateY(0px);
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+}
+
+#server_selection_text {
+    font-size: 13px; /* Aumentado */
+    font-weight: 900;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--text-primary);
+    font-family: 'Avenir Medium';
+    display: block;
+    text-align: center;
+    line-height: 1.4; /* Adiciona espaçamento vertical */
+}
+
+/* Indicador dropdown */
+.server_selector_button::after {
+    content: '▼';
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.7);
+    transition: transform var(--transition-default);
+}
+
+.server_selector_button:hover::after {
+    transform: translateY(-50%) rotate(180deg);
+}
+
+/* Responsividade */
+@media screen and (max-width: 1366px) {
+    #server_status_wrapper_top {
+        min-width: 130px;
+        max-width: 160px;
+        padding: 12px 16px;
+    }
+
+    #player_count_top {
+        font-size: 16px;
+    }
+
+    #server_selector_container_bottom {
+        min-width: 160px;
+        max-width: 200px;
+        padding: 10px 14px;
+    }
+
+    #server_selection_text {
+        font-size: 11px;
+    }
+}
+
+@media screen and (max-width: 1280px) {
+    #server_status_wrapper_top {
+        min-width: 120px;
+        max-width: 140px;
+        padding: 10px 14px;
+    }
+
+    #player_count_top {
+        font-size: 14px;
+    }
+
+    #server_selector_container_bottom {
+        min-width: 140px;
+        max-width: 180px;
+        padding: 10px 12px;
+        gap: 6px;
+    }
+
+    #server_selector_label {
+        font-size: 8px;
+    }
+
+    #server_selection_text {
+        font-size: 10px;
+    }
+
+    .server_selector_button {
+        padding: 8px 12px;
+    }
 }
 
 #image_seal_container[update]:hover #updateAvailableTooltip {
@@ -3286,12 +3405,46 @@ input:checked + .toggleSwitchSlider:before {
     display: flex;
     flex-direction: column;
     position: relative;
-    top: clamp(20px, 3vw, 30px);
+    top: 0; /* REMOVIDO o espaçamento - agora alinha com o topo */
     align-items: flex-end;
-    height: calc(100% - clamp(20px, 3vw, 30px));
-    padding-right: clamp(30px, 4vw, 50px); /* MAIS ESPAÇO DA BORDA */
+    height: 100%; /* Ocupa toda altura */
+    padding-right: clamp(30px, 4vw, 50px);
+    padding-top: clamp(20px, 3vw, 30px); /* Espaçamento como padding */
     overflow: visible;
-    max-width: 100%; /* PREVINE overflow */
+    max-width: 100%;
+    gap: 15px; /* Espaço entre perfil e botões */
+}
+
+/*******************************************************************************
+ * ALINHAMENTO PERFEITO - Perfil + Botões
+ ******************************************************************************/
+
+/* Remove espaço extra do card do usuário */
+#user_content {
+    margin-bottom: 0; /* Remove margem extra */
+}
+
+/* Centraliza os botões horizontalmente com o card */
+#mediaContent {
+    width: 100%; /* Ocupa largura total disponível */
+    max-width: 300px; /* Limita largura máxima */
+    justify-content: center; /* Centraliza os botões */
+}
+
+/* Garante que o tooltip do settings não quebre o layout */
+#settingsTooltip {
+    white-space: nowrap; /* Não quebra linha */
+    right: auto; /* Remove posicionamento fixo */
+    left: 50%; /* Centraliza */
+    transform: translateX(-50%) translateY(-50%); /* Centraliza perfeitamente */
+    top: -40px; /* Posiciona acima do botão */
+}
+
+#settingsTooltip::after {
+    left: 50%; /* Centraliza a seta */
+    transform: translateX(-50%);
+    top: 100%; /* Seta aponta para baixo */
+    border-color: rgba(0, 0, 0, 0.95) transparent transparent transparent;
 }
 
 #user_content {
@@ -3380,24 +3533,27 @@ input:checked + .toggleSwitchSlider:before {
 #mediaContent {
     position: relative;
     display: flex;
-    flex-direction: column;
-    gap: 10px;
-    max-width: 50px; /* LIMITA largura para não empurrar */
-    overflow: visible; /* Permite tooltips */
+    flex-direction: row; /* MUDOU: de column para row (horizontal) */
+    gap: 12px; /* Espaço entre os botões */
+    align-items: center; /* Centraliza verticalmente */
+    justify-content: center; /* Centraliza horizontalmente */
+    overflow: visible;
+    width: auto; /* Remove limite de largura */
 }
 
 #internalMedia,
 #externalMedia {
     display: flex;
-    flex-direction: column;
+    flex-direction: row; /* MUDOU: horizontal */
+    gap: 12px; /* Espaço entre botões */
 }
 
 .mediaContainer {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 40px;
-    width: 40px;
+    height: 45px; /* Era 40px - levemente maior */
+    width: 45px; /* Era 40px - levemente maior */
     background: var(--bg-input);
     border-radius: var(--radius-sm);
     border: 1px solid var(--border-default);
@@ -3405,7 +3561,7 @@ input:checked + .toggleSwitchSlider:before {
     -webkit-backdrop-filter: var(--blur-md);
     transition: all var(--transition-default);
     cursor: pointer;
-    position: relative; /* Para centralização absoluta se necessário */
+    position: relative;
 }
 
 .mediaContainer:hover {
@@ -3417,26 +3573,26 @@ input:checked + .toggleSwitchSlider:before {
 
 .mediaSVG {
     fill: #ffffff;
-    height: 18px;
-    width: 18px;
+    height: 20px; /* Era 18px - levemente maior */
+    width: 20px; /* Era 18px - levemente maior */
     transition: all var(--transition-default);
     filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3));
 }
 
 .mediaContainer:hover .mediaSVG {
-    height: 22px;
-    width: 22px;
+    height: 24px; /* Era 22px */
+    width: 24px; /* Era 22px */
 }
 
 .mediaDivider {
-    height: 2px;
-    width: 20px;
-    background: linear-gradient(to right,
+    width: 2px; /* MUDOU: de height para width */
+    height: 30px; /* MUDOU: de width para height */
+    background: linear-gradient(to bottom, /* MUDOU: de right para bottom */
         transparent 0%,
         rgba(255, 255, 255, 0.2) 50%,
         transparent 100%
     );
-    margin: 5px auto;
+    margin: 0 8px; /* Espaço horizontal */
 }
 
 .mediaURL {
@@ -3572,30 +3728,6 @@ input:checked + .toggleSwitchSlider:before {
  * Landing View (Bottom Left) - SERVER STATUS - MODERNIZADO                    *
  *                                                                             *
  ******************************************************************************/
-
-#server_status_wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    padding: 10px 15px; /* MENOR */
-    background: var(--bg-card);
-    border-radius: var(--radius-md);
-    border: 1px solid var(--border-default);
-    backdrop-filter: var(--blur-md);
-    -webkit-backdrop-filter: var(--blur-md);
-    min-width: 120px; /* MENOR */
-    max-width: 140px; /* LIMITA */
-    flex: 0 0 auto; /* NÃO CRESCE */
-}
-
-#player_count {
-    color: var(--color-secondary);
-    font-size: 12px; /* FIXO E MENOR */
-    font-weight: 900;
-    text-shadow: var(--glow-secondary);
-    letter-spacing: 0.5px;
-}
-
 #mojangStatusWrapper {
     position: relative;
     display: flex;
@@ -3869,38 +4001,7 @@ input:checked + .toggleSwitchSlider:before {
     max-width: 100%; /* Previne overflow */
 }
 
-#server_selection_button {
-    background: var(--bg-input);
-    border: 1px solid var(--border-light);
-    border-radius: var(--radius-md);
-    padding: clamp(10px, 2vw, 12px) clamp(20px, 3vw, 24px);
-    font-size: clamp(10px, 1.5vw, 11px);
-    font-weight: 900;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: all var(--transition-default);
-    outline: none;
-    backdrop-filter: var(--blur-md);
-    -webkit-backdrop-filter: var(--blur-md);
-    box-shadow: var(--shadow-sm);
-    white-space: nowrap; /* Previne quebra de linha */
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
 
-#server_selection_button:hover,
-#server_selection_button:focus {
-    background: var(--bg-hover);
-    border-color: var(--border-focus);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md), var(--glow-white);
-}
-
-#server_selection_button:active {
-    transform: translateY(0px);
-    box-shadow: var(--shadow-sm);
-}
 
 /* News Button Center */
 #newsButton {
@@ -4827,6 +4928,39 @@ body, html, #landingContainer, #settingsContainer, #newsContainer {
 /* Aumenta também os botões da tela de escolha (Microsoft/Mojang) para combinar */
 .loginOptionButtonContainer {
     width: 350px !important;
+}
+
+/*******************************************************************************
+ * ALINHAMENTO - Cards Esquerda
+ ******************************************************************************/
+
+/* Força mesma largura em ambos os containers */
+#landingContainer > #upper > #left,
+#landingContainer > #lower > #left {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+/* Garante que ambos os cards tenham o mesmo tamanho */
+#server_status_wrapper_top,
+#server_selector_container_bottom {
+    width: 200px; /* Largura fixa para alinhamento perfeito */
+}
+
+/* Responsivo: ajusta largura em telas menores */
+@media screen and (max-width: 1366px) {
+    #server_status_wrapper_top,
+    #server_selector_container_bottom {
+        width: 180px;
+    }
+}
+
+@media screen and (max-width: 1280px) {
+    #server_status_wrapper_top,
+    #server_selector_container_bottom {
+        width: 160px;
+    }
 }
 
 /*******************************************************************************

@@ -1,25 +1,26 @@
-# O ID deve ser único. Padrão: com.seu_nome.nome_do_app
 appId: 'com.ismaelbrandao.rizomalauncher'
-
 productName: 'Rizoma Launcher'
 
+# Configuração de publicação (GitHub Releases)
 publish:
   provider: github
   owner: IsmaelBrandao
   repo: RizomaLauncher
 
 artifactName: '${productName}-setup-${version}.${ext}'
-
 copyright: 'Copyright ©2025 Gabirubs'
 
 asar: true
 compression: 'maximum'
 
+# CRÍTICO: Arquivos a serem incluídos/excluídos
 files:
   - '!{dist,.gitignore,.vscode,docs,dev-app-update.yml,.nvmrc,.eslintrc.json}'
+  - 'app-update.yml' # ← FORÇA INCLUSÃO DO ARQUIVO
 
 extraResources:
   - 'libraries'
+  - 'app-update.yml' # ← GARANTE QUE ESTEJA NO PACOTE
 
 # Windows Configuration
 win: 
@@ -27,13 +28,11 @@ win:
     - target: 'nsis'
       arch: 'x64'
 
-# Windows Installer Configuration
 nsis:
   oneClick: false
   perMachine: false
   allowElevation: true
   allowToChangeInstallationDirectory: true
-  # Cria atalho na área de trabalho e menu iniciar
   createDesktopShortcut: true
   createStartMenuShortcut: true
   shortcutName: 'Rizoma Launcher'

@@ -1,9 +1,7 @@
 appId: 'com.ismaelbrandao.rizomalauncher.legacy'
 productName: 'Rizoma Launcher Legacy'
 
-# Nome do arquivo final
 artifactName: 'Rizoma-Launcher-Legacy-${version}.${ext}'
-copyright: 'Copyright ©2025 Gabirubs'
 
 asar: true
 compression: 'maximum'
@@ -19,26 +17,22 @@ files:
 extraResources:
   - 'libraries'
 
-# CONFIGURAÇÃO EXCLUSIVA PARA macOS
 mac:
   target:
     - target: 'dmg'
-      arch: 'x64'  # APENAS x64, sem ARM64
-  
+      arch: 'x64'
+
   category: 'public.app-category.games'
-  
-  # ⚠️ CRÍTICO - Define versão mínima do macOS
+
   minimumSystemVersion: "10.13.0"
-  
-  # Desabilita recursos modernos que não funcionam no 10.13
+
   hardenedRuntime: false
   gatekeeperAssess: false
-  identity: null  # Sem assinatura
+  identity: null
 
-  # ⚠️ IMPORTANTE: melhora compatibilidade com High Sierra
+  # Compatibilidade com High Sierra
   type: distribution
 
-  # Idiomas
   electronLanguages:
     - en
     - pt-BR
@@ -57,13 +51,6 @@ dmg:
       y: 211
       type: link
       path: /Applications
-
-# ⚠️ IMPORTANTE - Auto-update separado
-publish:
-  provider: github
-  owner: IsmaelBrandao
-  repo: RizomaLauncher
-  releaseType: release
 
 directories:
   buildResources: 'build'

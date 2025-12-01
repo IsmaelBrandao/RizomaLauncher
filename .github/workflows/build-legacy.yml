@@ -3,12 +3,12 @@ name: Build Legacy macOS (10.13+)
 on:
   push:
     tags:
-      - 'v*.*.*-legacy'  # Só roda com tags tipo v1.0.14-legacy
-  workflow_dispatch:      # Permite rodar manualmente também
+      - 'v*.*.*-legacy'
+  workflow_dispatch:
 
 jobs:
   build-legacy-mac:
-    runs-on: macos-latest  # <<< CORRIGIDO
+    runs-on: macos-latest
 
     permissions:
       contents: write
@@ -29,16 +29,27 @@ jobs:
 
       - name: Instalar dependências LEGACY
         run: |
+          echo "🔧 Limpando ambiente..."
           rm -rf node_modules package-lock.json
 
+          echo "📦 Instalando dependências normais..."
           npm install --legacy-peer-deps
-          npm install electron@22.3.27 --save-dev --legacy-peer-deps --force
+
+          echo "🔄 Forçando versão compatível do ejs-electron..."
+          npm uninstall ejs-electron || true
+          npm install ejs-electron@2.0.0 --save --legacy-peer-deps --force
+
+          echo "⚡ Instalando Electron 17 (compatível com macOS 10.13)..."
+          npm install electron@17.4.11 --save-dev --legacy-peer-deps --force
+
+          echo "🛠️ Instalando o electron-builder compatível..."
           npm install electron-builder@24.6.4 --save-dev --legacy-peer-deps --force
 
       - name: Buildar para macOS Legacy
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          echo "🚀 Iniciando build Legacy..."
           npx electron-builder build --mac --x64 --config electron-builder-legacy.yml
 
       - name: Upload para GitHub Release
@@ -46,16 +57,15 @@ jobs:
         with:
           files: |
             dist/*.dmg
-            dist/*.zip
           tag_name: ${{ github.ref_name }}
           name: "🍎 Legacy - macOS 10.13 High Sierra+"
           body: |
             ## Versão Legacy para macOS Antigos
-            
-            ⚠️ Use esta versão APENAS se estiver no:
+
+            Compatível com:
             - macOS 10.13 High Sierra
             - macOS 10.14 Mojave
-            
-            Usuários com macOS 10.15+ devem baixar a versão normal.
+
+            ❗Usuários com macOS 10.15+ devem baixar a versão normal.
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

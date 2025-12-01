@@ -1,62 +1,73 @@
-name: Build Legacy macOS
+name: Build Legacy macOS (10.13+)
 
-# Dispara quando você criar uma tag com sufixo -legacy (ex: v1.0.14-legacy)
 on:
   push:
     tags:
-      - 'v*.*.*-legacy'
+      - 'v*.*.*-legacy'  # Só roda com tags tipo v1.0.14-legacy
 
 jobs:
-  release-legacy:
-    runs-on: macos-11  # Versão mais antiga disponível no GitHub Actions
+  build-legacy-mac:
+    runs-on: macos-12  # macOS 12 é mais rápido e disponível
     
     permissions:
       contents: write
 
     steps:
-      - name: Checkout código
+      - name: Checkout do código
         uses: actions/checkout@v3
 
-      - name: Configurar Node.js
+      - name: Instalar Node.js 18
         uses: actions/setup-node@v3
         with:
-          node-version: 18  # Electron legacy precisa de Node mais antigo
+          node-version: 18  # Electron 22 precisa de Node 18
 
-      - name: Configurar Python (para node-gyp)
+      - name: Instalar Python
         uses: actions/setup-python@v4
         with:
           python-version: 3.x
 
-      # CRÍTICO: Instalar dependências com Electron legacy
-      - name: Instalar dependências legacy
+      - name: Instalar dependências LEGACY
         run: |
+          # Remove node_modules e package-lock para evitar conflitos
+          rm -rf node_modules package-lock.json
+          
+          # Instala dependências normais
           npm install --legacy-peer-deps
-          npm install electron@22.3.27 --save-dev --legacy-peer-deps
-          npm install electron-builder@24.6.4 --save-dev --legacy-peer-deps
+          
+          # FORÇA instalação do Electron 22 (legacy)
+          npm install electron@22.3.27 --save-dev --legacy-peer-deps --force
+          
+          # FORÇA electron-builder compatível
+          npm install electron-builder@24.6.4 --save-dev --legacy-peer-deps --force
 
-      - name: Build para macOS Legacy
+      - name: Buildar para macOS Legacy
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CSC_IDENTITY_AUTO_DISCOVERY: false  # Desabilita assinatura
         run: |
-          npx electron-builder build --mac --config electron-builder-legacy.yml
-      
-      - name: Upload para Release
+          npx electron-builder build --mac --x64 --config electron-builder-legacy.yml
+
+      - name: Upload para GitHub Release
         uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
             dist/*.dmg
             dist/*.zip
           tag_name: ${{ github.ref_name }}
-          name: "Legacy Release - macOS 10.13+"
+          name: "🍎 Legacy - macOS 10.13 High Sierra+"
           body: |
-            🍎 **Versão Legacy para macOS antigos**
+            ## Versão Legacy para macOS Antigos
             
-            - Compatível com macOS 10.13 High Sierra até 10.15 Catalina
-            - Electron 22 (última versão com suporte a 10.13)
-            - Recursos limitados comparado à versão moderna
+            ⚠️ **Use esta versão APENAS se você tem macOS 10.13 ou 10.14**
             
-            **Use esta versão apenas se o launcher principal não funcionar no seu Mac!**
+            ✅ Compatível com:
+            - macOS 10.13 High Sierra
+            - macOS 10.14 Mojave
+            
+            📥 Baixe o arquivo `.dmg` abaixo
+            
+            ---
+            
+            🆕 **Usuários com macOS 10.15 ou superior:**
+            Baixe a versão normal (mais recente e otimizada)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

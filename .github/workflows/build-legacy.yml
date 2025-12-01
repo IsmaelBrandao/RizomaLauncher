@@ -4,11 +4,12 @@ on:
   push:
     tags:
       - 'v*.*.*-legacy'  # Só roda com tags tipo v1.0.14-legacy
+  workflow_dispatch:      # Permite rodar manualmente também
 
 jobs:
   build-legacy-mac:
-    runs-on: macos-12  # macOS 12 é mais rápido e disponível
-    
+    runs-on: macos-latest  # <<< CORRIGIDO
+
     permissions:
       contents: write
 
@@ -19,7 +20,7 @@ jobs:
       - name: Instalar Node.js 18
         uses: actions/setup-node@v3
         with:
-          node-version: 18  # Electron 22 precisa de Node 18
+          node-version: 18
 
       - name: Instalar Python
         uses: actions/setup-python@v4
@@ -28,16 +29,10 @@ jobs:
 
       - name: Instalar dependências LEGACY
         run: |
-          # Remove node_modules e package-lock para evitar conflitos
           rm -rf node_modules package-lock.json
-          
-          # Instala dependências normais
+
           npm install --legacy-peer-deps
-          
-          # FORÇA instalação do Electron 22 (legacy)
           npm install electron@22.3.27 --save-dev --legacy-peer-deps --force
-          
-          # FORÇA electron-builder compatível
           npm install electron-builder@24.6.4 --save-dev --legacy-peer-deps --force
 
       - name: Buildar para macOS Legacy
@@ -57,17 +52,10 @@ jobs:
           body: |
             ## Versão Legacy para macOS Antigos
             
-            ⚠️ **Use esta versão APENAS se você tem macOS 10.13 ou 10.14**
-            
-            ✅ Compatível com:
+            ⚠️ Use esta versão APENAS se estiver no:
             - macOS 10.13 High Sierra
             - macOS 10.14 Mojave
             
-            📥 Baixe o arquivo `.dmg` abaixo
-            
-            ---
-            
-            🆕 **Usuários com macOS 10.15 ou superior:**
-            Baixe a versão normal (mais recente e otimizada)
+            Usuários com macOS 10.15+ devem baixar a versão normal.
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

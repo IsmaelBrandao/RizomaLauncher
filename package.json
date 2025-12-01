@@ -17,6 +17,7 @@
     "dist:win": "npm run dist -- -w",
     "dist:mac": "npm run dist -- -m",
     "dist:linux": "npm run dist -- -l",
+    "dist:mac-legacy": "electron-builder build --mac --x64 --config electron-builder-legacy.yml",
     "clean": "rm -rf dist",
     "lint": "eslint --config .eslintrc.json ."
   },

@@ -1,0 +1,62 @@
+name: Build Legacy macOS
+
+# Dispara quando você criar uma tag com sufixo -legacy (ex: v1.0.14-legacy)
+on:
+  push:
+    tags:
+      - 'v*.*.*-legacy'
+
+jobs:
+  release-legacy:
+    runs-on: macos-11  # Versão mais antiga disponível no GitHub Actions
+    
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v3
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18  # Electron legacy precisa de Node mais antigo
+
+      - name: Configurar Python (para node-gyp)
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.x
+
+      # CRÍTICO: Instalar dependências com Electron legacy
+      - name: Instalar dependências legacy
+        run: |
+          npm install --legacy-peer-deps
+          npm install electron@22.3.27 --save-dev --legacy-peer-deps
+          npm install electron-builder@24.6.4 --save-dev --legacy-peer-deps
+
+      - name: Build para macOS Legacy
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CSC_IDENTITY_AUTO_DISCOVERY: false  # Desabilita assinatura
+        run: |
+          npx electron-builder build --mac --config electron-builder-legacy.yml
+      
+      - name: Upload para Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            dist/*.dmg
+            dist/*.zip
+          tag_name: ${{ github.ref_name }}
+          name: "Legacy Release - macOS 10.13+"
+          body: |
+            🍎 **Versão Legacy para macOS antigos**
+            
+            - Compatível com macOS 10.13 High Sierra até 10.15 Catalina
+            - Electron 22 (última versão com suporte a 10.13)
+            - Recursos limitados comparado à versão moderna
+            
+            **Use esta versão apenas se o launcher principal não funcionar no seu Mac!**
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
